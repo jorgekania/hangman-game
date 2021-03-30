@@ -48,14 +48,14 @@ const charactersAuthorized = [
 
 //Arrays com as imagens da forca
 const forca = [
-    '../src/images/forca_7.png',
-    '../src/images/forca_6.png',
-    '../src/images/forca_5.png',
-    '../src/images/forca_4.png',
-    '../src/images/forca_3.png',
-    '../src/images/forca_2.png',
-    '../src/images/forca_1.png',
-    '../src/images/forca_0.png',
+    './src/images/forca_7.png',
+    './src/images/forca_6.png',
+    './src/images/forca_5.png',
+    './src/images/forca_4.png',
+    './src/images/forca_3.png',
+    './src/images/forca_2.png',
+    './src/images/forca_1.png',
+    './src/images/forca_0.png',
 ]
 var imgInit = divForca.innerHTML = '<img src="' + forca[7] + '" alt="">';
 
