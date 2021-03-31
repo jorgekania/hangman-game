@@ -7,6 +7,9 @@ const gains = document.getElementById('gains');
 const points = document.getElementById('point');
 const start = document.querySelector('.start');
 const divForca = document.querySelector('.forca');
+const modal = document.getElementById('dv-modal');
+const btnModal = document.getElementById('btnModal');
+const modalBody = document.querySelector('.modal-body');
 
 //Variáveis do jogo
 var numberDrawn;
@@ -24,6 +27,7 @@ var scoreboardPoint;
 var endGame;
 var countLetters;
 var startG;
+var msg;
 
 //Array de palavras e dic.a
 const word = [
@@ -66,9 +70,11 @@ const actionBtn = () => {
     } else {
         start.classList.add('btnNone');
     }
+    msgModal = '';
     startGame();
 }
 start.addEventListener('click', actionBtn, false);
+
 
 //Função para sortear um palavra
 const startGame = () => {
@@ -110,14 +116,36 @@ const startGame = () => {
     }
     hits.innerHTML = convertCharacter();
 
+    //Chamada modal
+    const openModal = (msg) => {
+        if (typeof modal == 'undefined' || modal === null)
+            return;
+
+        modalBody.innerHTML = msg;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    //Fecha a modal
+    const closeModal = () => {
+        if (typeof modal == 'undefined' || modal === null)
+            return;
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        endGame = false;
+        actionBtn();
+
+    }
+    modal.addEventListener('click', closeModal, false)
+
     //Remover classes correct e incorrect
     const verifyEndGame = () => {
+        openModal(msgModal);
         startG = false;
         letters.classList.add('disabled')
         wordDrawn = '';
         letterFound = [];
         amountErrors = 0;
-        endGame = false;
         tip.innerHTML = 'Clique no botão para iniciar o jogo';
         for (var i = 0; i < alphabet.length; i++) {
             alphabet[i].classList.remove('correct');
@@ -164,7 +192,7 @@ const startGame = () => {
                     if (wordDrawn.length == 0) {
                         scoreboardGain = scoreboardGain + 1;
                         gains.innerHTML = scoreboardGain;
-                        console.log('Você ganhou')
+                        msgModal = 'Parabéns! Você completou a palavra';
                         endGame = true;
                         verifyEndGame();
                     }
@@ -183,7 +211,6 @@ const startGame = () => {
                         }
                     }
                 }
-                console.log('Função check: ' + countLetters)
                 return countLetters;
             }
 
@@ -194,11 +221,10 @@ const startGame = () => {
                     let l = document.getElementById(letter);
                     l.classList.add('incorrect');
                     verifyPhaseGame();
-                    console.log(verifyPhaseGame())
-                    console.log(amountErrors)
                 }
+                console.log(endGame, amountErrors)
                 if (amountErrors === 0) {
-                    console.log('Você perdeu')
+                    msgModal = 'Aaaaa! Você atingiu o limite de chances';
                     endGame = true;
                     verifyEndGame();
                 }
